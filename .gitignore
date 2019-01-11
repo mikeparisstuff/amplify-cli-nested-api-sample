@@ -1,0 +1,8 @@
+#amplify
+amplify/\#current-cloud-backend
+amplify/team-provider-info.json
+amplify/.config/local-*
+amplify/backend/amplify-meta.json
+aws-exports.js
+awsconfiguration.json
+node_modules

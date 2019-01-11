@@ -1,0 +1,8 @@
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+type Query {
+  customGetTodo(id: ID!): Todo
+}
