@@ -30,7 +30,7 @@ type Todo @model {
   description: String
 }
 type Query {
-  customResolver(id: ID!)
+  customGetTodo(id: ID!): Todo
 }
 ```
 
