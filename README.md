@@ -48,14 +48,14 @@ CustomGetTodoResolver:
     FieldName: customGetTodo  # Target the field in your schema
     RequestMappingTemplateS3Location:
       Fn::Sub:
-      - s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.customGetTodo.request.vtl
+      - s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.customGetTodo.req.vtl
       - S3DeploymentBucket:
           Ref: S3DeploymentBucket
         S3DeploymentRootKey:
           Ref: S3DeploymentRootKey
     ResponseMappingTemplateS3Location:
       Fn::Sub:
-      - s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.customGetTodo.response.vtl
+      - s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.customGetTodo.res.vtl
       - S3DeploymentBucket:
           Ref: S3DeploymentBucket
         S3DeploymentRootKey: 
@@ -65,7 +65,7 @@ CustomGetTodoResolver:
 
 Lastly place the resolver templates in the top level resolvers directory.
 
-**src/amplify/backend/api/resolvers/Query.customGetTodo.request.vtl**
+**src/amplify/backend/api/resolvers/Query.customGetTodo.req.vtl**
 
 ```
 {
@@ -77,7 +77,7 @@ Lastly place the resolver templates in the top level resolvers directory.
 }
 ```
 
-**src/amplify/backend/api/resolvers/Query.customGetTodo.response.vtl**
+**src/amplify/backend/api/resolvers/Query.customGetTodo.res.vtl**
 
 ```
 $util.toJson($ctx.result)
@@ -137,15 +137,15 @@ will want to tweak the default behavior and implement your own business logic.
 **How to override default resolver templates**
 
 The short way to tweak the behavior is to create a file in the top level `resolvers`
-directory of your amplify project's api category to named `Type.field.request.vtl` or
-`Type.field.response.vtl`. For example, we could update the behavior for our
-`Query.getTodo` query field by adding the file `Query.getTodo.request.vtl` to
-`src/amplify/backend/amplifynestedsample/resolvers/Query.getTodo.request.vtl` with
+directory of your amplify project's api category to named `Type.field.req.vtl` or
+`Type.field.res.vtl`. For example, we could update the behavior for our
+`Query.getTodo` query field by adding the file `Query.getTodo.req.vtl` to
+`src/amplify/backend/amplifynestedsample/resolvers/Query.getTodo.req.vtl` with
 the following contents.
 
 ```
-#if($ctx.args.input.id === "13")
-    $util.error("Can't create unlucky todo objects")
+#if( $ctx.args.id == "13")
+	$util.error("Can't get unlucky todo objects!")
 #end
 {
   "version": "2017-02-28",
@@ -158,4 +158,4 @@ the following contents.
 
 The next time you run `amplify push`, this file will get merged on top of the auto-generated
 file. You can also verify this by running `amplify api gql-compile` and checking the build output
-`src/amplify/backend/amplifynestedsample/build/resolvers/Query.getTodo.request.vtl`.
+`src/amplify/backend/amplifynestedsample/build/resolvers/Query.getTodo.req.vtl`.
