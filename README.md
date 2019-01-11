@@ -2,6 +2,16 @@
 
 This project can serve as a sample for getting started with the new nested stacks implementation of the Amplify CLI API category.
 
+# Setup
+
+This project only works when using the **nested-stacks** branch of this repository:
+
+https://github.com/mikeparisstuff/amplify-cli/tree/nested-stacks
+
+To get started, clone that repo and then run `npm run setup-dev` from the root
+of the project directory. When that command finishes, the `amplify` command on
+your machine will now map to the nested-stacks build.
+
 # How to add custom resources
 
 Open `src/amplify/backend/api/stacks/CustomResources.yml` and add any resources that you would like deployed
