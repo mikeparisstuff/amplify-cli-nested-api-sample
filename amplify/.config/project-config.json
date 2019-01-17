@@ -3,10 +3,10 @@
     "version": "1.0",
     "frontend": "javascript",
     "javascript": {
-        "framework": "react",
+        "framework": "none",
         "config": {
             "SourceDir": "src",
-            "DistributionDir": "build",
+            "DistributionDir": "dist",
             "BuildCommand": "npm run-script build",
             "StartCommand": "npm run-script start"
         }

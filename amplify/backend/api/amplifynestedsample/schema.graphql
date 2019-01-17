@@ -1,0 +1,20 @@
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+  comments: [Comment] @connection(name: "TodoComments", sortField: "createdAt")
+  createdAt: AWSDateTime
+}
+type Comment @model {
+  id: ID!
+  content: String
+  todo: Todo @connection(name: "TodoComments", sortField: "createdAt")
+  createdAt: AWSDateTime
+}
+type CommentConnection {
+  items: [Comment]
+  nextToken: String
+}
+type Query {
+  commentsForTodo(todoId: ID!, limit: Int, nextToken: String): CommentConnection
+}

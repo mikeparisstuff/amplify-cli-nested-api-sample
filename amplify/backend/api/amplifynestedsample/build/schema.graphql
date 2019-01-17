@@ -1,0 +1,170 @@
+type Todo {
+  id: ID!
+  name: String!
+  description: String
+  comments(filter: ModelCommentFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelCommentConnection
+  createdAt: AWSDateTime
+}
+
+type Comment {
+  id: ID!
+  content: String
+  todo: Todo
+  createdAt: AWSDateTime
+}
+
+type CommentConnection {
+  items: [Comment]
+  nextToken: String
+}
+
+type Query {
+  commentsForTodo(todoId: ID!, limit: Int, nextToken: String): CommentConnection
+  getTodo(id: ID!): Todo
+  listTodos(filter: ModelTodoFilterInput, limit: Int, nextToken: String): ModelTodoConnection
+  getComment(id: ID!): Comment
+  listComments(filter: ModelCommentFilterInput, limit: Int, nextToken: String): ModelCommentConnection
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelTodoConnection {
+  items: [Todo]
+  nextToken: String
+}
+
+input ModelStringFilterInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+}
+
+input ModelIDFilterInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+}
+
+input ModelIntFilterInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  contains: Int
+  notContains: Int
+  between: [Int]
+}
+
+input ModelFloatFilterInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  contains: Float
+  notContains: Float
+  between: [Float]
+}
+
+input ModelBooleanFilterInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelTodoFilterInput {
+  id: ModelIDFilterInput
+  name: ModelStringFilterInput
+  description: ModelStringFilterInput
+  createdAt: ModelStringFilterInput
+  and: [ModelTodoFilterInput]
+  or: [ModelTodoFilterInput]
+  not: ModelTodoFilterInput
+}
+
+input CreateTodoInput {
+  id: ID
+  name: String!
+  description: String
+  createdAt: AWSDateTime
+}
+
+input UpdateTodoInput {
+  id: ID!
+  name: String
+  description: String
+  createdAt: AWSDateTime
+}
+
+input DeleteTodoInput {
+  id: ID
+}
+
+type Mutation {
+  createTodo(input: CreateTodoInput!): Todo
+  updateTodo(input: UpdateTodoInput!): Todo
+  deleteTodo(input: DeleteTodoInput!): Todo
+  createComment(input: CreateCommentInput!): Comment
+  updateComment(input: UpdateCommentInput!): Comment
+  deleteComment(input: DeleteCommentInput!): Comment
+}
+
+type Subscription {
+  onCreateTodo: Todo @aws_subscribe(mutations: ["createTodo"])
+  onUpdateTodo: Todo @aws_subscribe(mutations: ["updateTodo"])
+  onDeleteTodo: Todo @aws_subscribe(mutations: ["deleteTodo"])
+  onCreateComment: Comment @aws_subscribe(mutations: ["createComment"])
+  onUpdateComment: Comment @aws_subscribe(mutations: ["updateComment"])
+  onDeleteComment: Comment @aws_subscribe(mutations: ["deleteComment"])
+}
+
+type ModelCommentConnection {
+  items: [Comment]
+  nextToken: String
+}
+
+input ModelCommentFilterInput {
+  id: ModelIDFilterInput
+  content: ModelStringFilterInput
+  createdAt: ModelStringFilterInput
+  and: [ModelCommentFilterInput]
+  or: [ModelCommentFilterInput]
+  not: ModelCommentFilterInput
+}
+
+input CreateCommentInput {
+  id: ID
+  content: String
+  createdAt: AWSDateTime
+  commentTodoId: ID
+}
+
+input UpdateCommentInput {
+  id: ID!
+  content: String
+  createdAt: AWSDateTime
+  commentTodoId: ID
+}
+
+input DeleteCommentInput {
+  id: ID
+}
