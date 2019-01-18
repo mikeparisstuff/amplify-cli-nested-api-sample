@@ -81,21 +81,21 @@
 		"apiamplifynestedsample": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/amplifynestedsample-20190117132343-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/amplifynestedsample-20190118130523-deployment/amplify-cfn-templates/api/cloudformation-template.json",
 				"Parameters": {
 					"AppSyncApiName": "amplifynestedsample",
-					"S3DeploymentBucket": "amplifynestedsample-20190117132343-deployment",
-					"S3DeploymentRootKey": "amplify-appsync-files/1547769447788",
-					"env": "dev"
+					"S3DeploymentBucket": "amplifynestedsample-20190118130523-deployment",
+					"S3DeploymentRootKey": "amplify-appsync-files/1547850263074",
+					"env": "test"
 				}
 			}
 		},
 		"functionechofunction": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/amplifynestedsample-20190117132343-deployment/amplify-cfn-templates/function/pongfunction-cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/amplifynestedsample-20190118130523-deployment/amplify-cfn-templates/function/pongfunction-cloudformation-template.json",
 				"Parameters": {
-					"env": "dev"
+					"env": "test"
 				}
 			}
 		}

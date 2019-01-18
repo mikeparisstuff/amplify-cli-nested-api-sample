@@ -1,0 +1,24 @@
+#set( $indexPath = "/todo/doc/_search" )
+#set( $distance = $util.defaultIfNull($ctx.args.km, 200) )
+{
+    "version": "2017-02-28",
+    "operation": "GET",
+    "path": "$indexPath.toLowerCase()",
+    "params": {
+        "body": {
+            "query": {
+                "bool" : {
+                    "must" : {
+                        "match_all" : {}
+                    },
+                    "filter" : {
+                        "geo_distance" : {
+                            "distance" : "${distance}km",
+                            "location" : $util.toJson($ctx.args.location)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,30 @@
+#set( $indexPath = "/function toLowerCase() { [native code] }/doc/_search" )
+{
+  "version": "2017-02-28",
+  "operation": "GET",
+  "path": "$indexPath.toLowerCase()",
+  "params": {
+      "body": {
+          "from": #if( $context.args.nextToken ) $context.args.nextToken #else 0 #end,
+          "size": #if( $context.args.limit ) $context.args.limit #else 10 #end,
+          "sort":       #if( $context.args.sort )
+        [#if( !$util.isNullOrEmpty($context.args.sort.field) && !$util.isNullOrEmpty($context.args.sort.direction) )
+{
+      "$context.args.sort.field": {
+          "order": "$context.args.sort.direction"
+    }
+  }
+#end, "_doc"]
+      #else
+        []
+      #end,
+          "query":       #if( $context.args.filter )
+$util.transform.toElasticsearchQueryDSL($ctx.args.filter)
+      #else
+{
+                  "match_all": {}
+        }
+      #end
+    }
+  }
+}

@@ -8,6 +8,100 @@
             "Description": "The name of the AppSync API",
             "Default": "AppSyncSimpleTransform"
         },
+        "ElasticsearchAccessIAMRoleName": {
+            "Type": "String",
+            "Description": "The name of the IAM role assumed by AppSync for Elasticsearch.",
+            "Default": "AppSyncElasticsearchAccess"
+        },
+        "ElasticsearchStreamingLambdaHandlerName": {
+            "Type": "String",
+            "Description": "The name of the lambda handler.",
+            "Default": "python_streaming_function.lambda_handler"
+        },
+        "ElasticsearchStreamingLambdaRuntime": {
+            "Type": "String",
+            "Description": "The lambda runtime                 (https://docs.aws.amazon.com/lambda/latest/dg/API_CreateFunction.html#SSS-CreateFunction-request-Runtime)",
+            "Default": "python3.6"
+        },
+        "ElasticsearchStreamingFunctionName": {
+            "Type": "String",
+            "Description": "The name of the streaming lambda function.",
+            "Default": "DdbToEsFn"
+        },
+        "ElasticsearchStreamingIAMRoleName": {
+            "Type": "String",
+            "Description": "The name of the streaming lambda function IAM role.",
+            "Default": "SearchableLambdaIAMRole"
+        },
+        "ElasticsearchDebugStreamingLambda": {
+            "Type": "Number",
+            "Description": "Enable debug logs for the Dynamo -> ES streaming lambda.",
+            "Default": 1,
+            "AllowedValues": [
+                0,
+                1
+            ]
+        },
+        "ElasticsearchInstanceCount": {
+            "Type": "Number",
+            "Description": "The number of instances to launch into the Elasticsearch domain.",
+            "Default": 1
+        },
+        "ElasticsearchDomainName": {
+            "Type": "String",
+            "Description": "The name of the Elasticsearch domain.",
+            "Default": "appsync-elasticsearch-domain",
+            "AllowedPattern": "^[a-z][a-z0-9-]*$",
+            "MinLength": 1,
+            "MaxLength": 28
+        },
+        "ElasticsearchInstanceType": {
+            "Type": "String",
+            "Description": "The type of instance to launch into the Elasticsearch domain.",
+            "Default": "t2.small.elasticsearch",
+            "AllowedValues": [
+                "t2.small.elasticsearch",
+                "t2.medium.elasticsearch",
+                "c4.large.elasticsearch",
+                "c4.xlarge.elasticsearch",
+                "c4.2xlarge.elasticsearch",
+                "c4.4xlarge.elasticsearch",
+                "c4.8xlarge.elasticsearch",
+                "m3.medium.elasticsearch",
+                "m3.large.elasticsearch",
+                "m3.xlarge.elasticsearch",
+                "m3.2xlarge.elasticsearch",
+                "m4.large.elasticsearch",
+                "m4.xlarge.elasticsearch",
+                "m4.2xlarge.elasticsearch",
+                "m4.4xlarge.elasticsearch",
+                "m4.10xlarge.elasticsearch",
+                "r3.large.elasticsearch",
+                "r3.xlarge.elasticsearch",
+                "r3.2xlarge.elasticsearch",
+                "r3.4xlarge.elasticsearch",
+                "r3.8xlarge.elasticsearch",
+                "r4.large.elasticsearch",
+                "r4.xlarge.elasticsearch",
+                "r4.2xlarge.elasticsearch",
+                "r4.4xlarge.elasticsearch",
+                "r4.8xlarge.elasticsearch",
+                "r4.16xlarge.elasticsearch",
+                "i2.xlarge.elasticsearch",
+                "i2.2xlarge.elasticsearch",
+                "i3.large.elasticsearch",
+                "i3.xlarge.elasticsearch",
+                "i3.2xlarge.elasticsearch",
+                "i3.4xlarge.elasticsearch",
+                "i3.8xlarge.elasticsearch",
+                "i3.16xlarge.elasticsearch"
+            ]
+        },
+        "ElasticsearchEBSVolumeGB": {
+            "Type": "Number",
+            "Description": "The size in GB of the EBS volumes that contain our data.",
+            "Default": 20
+        },
         "env": {
             "Type": "String",
             "Description": "The environment name. e.g. Dev, Test, or Production",
@@ -560,6 +654,29 @@
                             "GetAtt",
                             "TodoDataSource",
                             "Name"
+                        ]
+                    ]
+                }
+            }
+        },
+        "GetAttTodoTableStreamArn": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "TodoTable",
+                    "StreamArn"
+                ]
+            },
+            "Export": {
+                "Name": {
+                    "Fn::Join": [
+                        ":",
+                        [
+                            {
+                                "Ref": "AppSyncApiId"
+                            },
+                            "GetAtt",
+                            "TodoTable",
+                            "StreamArn"
                         ]
                     ]
                 }

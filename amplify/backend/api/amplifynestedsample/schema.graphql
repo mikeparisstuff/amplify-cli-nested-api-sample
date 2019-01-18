@@ -1,8 +1,9 @@
-type Todo @model {
+type Todo @model @searchable {
   id: ID!
   name: String!
   description: String
   comments: [Comment] @connection(name: "TodoComments", sortField: "createdAt")
+  location: Location
   createdAt: AWSDateTime
 }
 type Comment @model {
@@ -11,11 +12,25 @@ type Comment @model {
   todo: Todo @connection(name: "TodoComments", sortField: "createdAt")
   createdAt: AWSDateTime
 }
+type Location {
+  lat: Float
+  lon: Float
+}
+input LocationInput {
+  lat: Float
+  lon: Float
+}
 type CommentConnection {
   items: [Comment]
+  nextToken: String
+}
+type TodoConnection {
+  items: [Todo]
+  total: Int
   nextToken: String
 }
 type Query {
   commentsForTodo(todoId: ID!, limit: Int, nextToken: String): CommentConnection
   echo(msg: String): String
+  nearbyTodos(location: LocationInput!, km: Int): TodoConnection
 }

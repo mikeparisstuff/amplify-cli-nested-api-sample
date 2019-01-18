@@ -1,5 +1,5 @@
 {
     "AppSyncApiName": "amplifynestedsample",
-    "S3DeploymentBucket": "amplifynestedsample-20190117132343-deployment",
-    "S3DeploymentRootKey": "amplify-appsync-files/1547769447788"
+    "S3DeploymentBucket": "amplifynestedsample-20190118130523-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/1547850263074"
 }

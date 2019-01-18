@@ -3,6 +3,7 @@ type Todo {
   name: String!
   description: String
   comments(filter: ModelCommentFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelCommentConnection
+  location: Location
   createdAt: AWSDateTime
 }
 
@@ -13,18 +14,36 @@ type Comment {
   createdAt: AWSDateTime
 }
 
+type Location {
+  lat: Float
+  lon: Float
+}
+
+input LocationInput {
+  lat: Float
+  lon: Float
+}
+
 type CommentConnection {
   items: [Comment]
+  nextToken: String
+}
+
+type TodoConnection {
+  items: [Todo]
+  total: Int
   nextToken: String
 }
 
 type Query {
   commentsForTodo(todoId: ID!, limit: Int, nextToken: String): CommentConnection
   echo(msg: String): String
+  nearbyTodos(location: LocationInput!, km: Int): TodoConnection
   getTodo(id: ID!): Todo
   listTodos(filter: ModelTodoFilterInput, limit: Int, nextToken: String): ModelTodoConnection
   getComment(id: ID!): Comment
   listComments(filter: ModelCommentFilterInput, limit: Int, nextToken: String): ModelCommentConnection
+  searchTodos(filter: SearchableTodoFilterInput, sort: SearchableTodoSortInput, limit: Int, nextToken: Int): SearchableTodoConnection
 }
 
 enum ModelSortDirection {
@@ -106,6 +125,7 @@ input CreateTodoInput {
   id: ID
   name: String!
   description: String
+  location: LocationInput
   createdAt: AWSDateTime
 }
 
@@ -113,6 +133,7 @@ input UpdateTodoInput {
   id: ID!
   name: String
   description: String
+  location: LocationInput
   createdAt: AWSDateTime
 }
 
@@ -168,4 +189,85 @@ input UpdateCommentInput {
 
 input DeleteCommentInput {
   id: ID
+}
+
+input SearchableStringFilterInput {
+  ne: String
+  eq: String
+  match: String
+  matchPhrase: String
+  matchPhrasePrefix: String
+  multiMatch: String
+  exists: Boolean
+  wildcard: String
+  regexp: String
+}
+
+input SearchableIDFilterInput {
+  ne: ID
+  eq: ID
+  match: ID
+  matchPhrase: ID
+  matchPhrasePrefix: ID
+  multiMatch: ID
+  exists: Boolean
+  wildcard: ID
+  regexp: ID
+}
+
+input SearchableIntFilterInput {
+  ne: Int
+  gt: Int
+  lt: Int
+  gte: Int
+  lte: Int
+  eq: Int
+  range: [Int]
+}
+
+input SearchableFloatFilterInput {
+  ne: Float
+  gt: Float
+  lt: Float
+  gte: Float
+  lte: Float
+  eq: Float
+  range: [Float]
+}
+
+input SearchableBooleanFilterInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input SearchableTodoFilterInput {
+  id: SearchableIDFilterInput
+  name: SearchableStringFilterInput
+  description: SearchableStringFilterInput
+  createdAt: SearchableStringFilterInput
+  and: [SearchableTodoFilterInput]
+  or: [SearchableTodoFilterInput]
+  not: SearchableTodoFilterInput
+}
+
+enum SearchableSortDirection {
+  asc
+  desc
+}
+
+enum SearchableTodoSortableFields {
+  id
+  name
+  description
+  createdAt
+}
+
+input SearchableTodoSortInput {
+  field: SearchableTodoSortableFields
+  direction: SearchableSortDirection
+}
+
+type SearchableTodoConnection {
+  items: [Todo]
+  nextToken: String
 }
