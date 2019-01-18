@@ -20,6 +20,7 @@ type CommentConnection {
 
 type Query {
   commentsForTodo(todoId: ID!, limit: Int, nextToken: String): CommentConnection
+  echo(msg: String): String
   getTodo(id: ID!): Todo
   listTodos(filter: ModelTodoFilterInput, limit: Int, nextToken: String): ModelTodoConnection
   getComment(id: ID!): Comment

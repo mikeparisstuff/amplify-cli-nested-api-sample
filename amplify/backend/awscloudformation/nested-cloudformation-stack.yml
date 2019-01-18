@@ -85,7 +85,16 @@
 				"Parameters": {
 					"AppSyncApiName": "amplifynestedsample",
 					"S3DeploymentBucket": "amplifynestedsample-20190117132343-deployment",
-					"S3DeploymentRootKey": "amplify-appsync-files/1547760487925",
+					"S3DeploymentRootKey": "amplify-appsync-files/1547769447788",
+					"env": "dev"
+				}
+			}
+		},
+		"functionechofunction": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/amplifynestedsample-20190117132343-deployment/amplify-cfn-templates/function/pongfunction-cloudformation-template.json",
+				"Parameters": {
 					"env": "dev"
 				}
 			}

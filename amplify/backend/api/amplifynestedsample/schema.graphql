@@ -17,4 +17,5 @@ type CommentConnection {
 }
 type Query {
   commentsForTodo(todoId: ID!, limit: Int, nextToken: String): CommentConnection
+  echo(msg: String): String
 }
