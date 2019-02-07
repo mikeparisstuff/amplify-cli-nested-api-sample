@@ -170,6 +170,7 @@ type Query {
     "ApiId": {
       "Ref": "AppSyncApiId"
     },
+    "Type": "AWS_LAMBDA",
     "Name": "EchoFunction",
     "ServiceRoleArn": {
       "Fn::GetAtt": [
